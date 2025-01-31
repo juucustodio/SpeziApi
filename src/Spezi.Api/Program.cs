@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo{
         Title = "Spezi API",
         Version = "v1",
-        Description = "API create to study"
+        Description = "Spezi API is an API created for study purposes. The goal of this project is to explore various functionalities using .NET, Domain-Driven Design (DDD), GitHub Actions, Bicep, and Azure Cloud."
     });
 });
 
