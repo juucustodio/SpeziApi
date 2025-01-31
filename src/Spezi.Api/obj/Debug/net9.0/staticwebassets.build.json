@@ -1,0 +1,362 @@
+{
+  "Version": 1,
+  "Hash": "oEexcEcYsFUp9ssfebvfFy6h6nrQeb66jYMwDrWAg6A=",
+  "Source": "Spezi.Api",
+  "BasePath": "_content/Spezi.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Spezi.Api\\wwwroot",
+      "Source": "Spezi.Api",
+      "ContentRoot": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\wwwroot\\",
+      "BasePath": "_content/Spezi.Api",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\obj\\Debug\\net9.0\\compressed\\3pzrhwyu8y-uhqss0o28n.gz",
+      "SourceId": "Spezi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/Spezi.Api",
+      "RelativePath": "swagger-ui/custom#[.{fingerprint=uhqss0o28n}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\wwwroot\\swagger-ui\\custom.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "ro7vituz5p",
+      "Integrity": "VUFIyMYGeXjKSw5+xD3moiczzggGPrq0nZ5kAetqjRg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\wwwroot\\swagger-ui\\custom.css"
+    },
+    {
+      "Identity": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\wwwroot\\swagger-ui\\custom.css",
+      "SourceId": "Spezi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\wwwroot\\",
+      "BasePath": "_content/Spezi.Api",
+      "RelativePath": "swagger-ui/custom#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "uhqss0o28n",
+      "Integrity": "3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\swagger-ui\\custom.css"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "swagger-ui/custom.css",
+      "AssetFile": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\obj\\Debug\\net9.0\\compressed\\3pzrhwyu8y-uhqss0o28n.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.008928571429"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "111"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VUFIyMYGeXjKSw5+xD3moiczzggGPrq0nZ5kAetqjRg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 31 Jan 2025 14:37:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.css",
+      "AssetFile": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\wwwroot\\swagger-ui\\custom.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "146"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 31 Jan 2025 14:37:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.css.gz",
+      "AssetFile": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\obj\\Debug\\net9.0\\compressed\\3pzrhwyu8y-uhqss0o28n.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "111"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VUFIyMYGeXjKSw5+xD3moiczzggGPrq0nZ5kAetqjRg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 31 Jan 2025 14:37:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-VUFIyMYGeXjKSw5+xD3moiczzggGPrq0nZ5kAetqjRg="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.uhqss0o28n.css",
+      "AssetFile": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\obj\\Debug\\net9.0\\compressed\\3pzrhwyu8y-uhqss0o28n.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.008928571429"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "111"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VUFIyMYGeXjKSw5+xD3moiczzggGPrq0nZ5kAetqjRg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 31 Jan 2025 14:37:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "uhqss0o28n"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/custom.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.uhqss0o28n.css",
+      "AssetFile": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\wwwroot\\swagger-ui\\custom.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "146"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 31 Jan 2025 14:37:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "uhqss0o28n"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/custom.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3u7Tql02wXmR/qC7xGTyH+BXbDixhXkIUQ0E/tnIHUE="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.uhqss0o28n.css.gz",
+      "AssetFile": "C:\\Users\\julia\\Documents\\SpeziApi\\src\\Spezi.Api\\obj\\Debug\\net9.0\\compressed\\3pzrhwyu8y-uhqss0o28n.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "111"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VUFIyMYGeXjKSw5+xD3moiczzggGPrq0nZ5kAetqjRg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 31 Jan 2025 14:37:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "uhqss0o28n"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/custom.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-VUFIyMYGeXjKSw5+xD3moiczzggGPrq0nZ5kAetqjRg="
+        }
+      ]
+    }
+  ]
+}

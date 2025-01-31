@@ -1,0 +1,12 @@
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\bin\Debug\net9.0\Spezi.Domain.deps.json
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\bin\Debug\net9.0\Spezi.Domain.dll
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\bin\Debug\net9.0\Spezi.Domain.pdb
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\Spezi.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\Spezi.Domain.AssemblyInfoInputs.cache
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\Spezi.Domain.AssemblyInfo.cs
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\Spezi.Domain.csproj.CoreCompileInputs.cache
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\Spezi.Domain.sourcelink.json
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\Spezi.Domain.dll
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\refint\Spezi.Domain.dll
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\Spezi.Domain.pdb
+C:\Users\julia\Documents\SpeziApi\src\Spezi.Domain\obj\Debug\net9.0\ref\Spezi.Domain.dll
