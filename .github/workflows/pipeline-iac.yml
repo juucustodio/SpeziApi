@@ -1,0 +1,39 @@
+name: Deploy Infrastructure as Code (IaC) using Bicep
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - sit
+          - uat
+          - prd
+
+jobs:
+  deploy_iac:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Azure CLI
+      uses: azure/CLI@v1
+
+    - name: Install Bicep CLI
+      run: |
+        az bicep install
+
+    - name: Validate Bicep files
+      run: |
+        az bicep build --file ./bicep/main.bicep
+
+    - name: Deploy Bicep
+      run: |
+        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+        az deployment group create --resource-group your-resource-group --template-file ./bicep/main.bicep --parameters ./bicep/environments/parameters-${{ github.event.inputs.environment }}.json
