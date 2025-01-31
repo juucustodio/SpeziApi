@@ -11,7 +11,7 @@ Spezi API is an API created for study purposes. The goal of this project is to e
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/spezi-api.git
+    git clone https://github.com/juucustodio/spezi-api.git
     cd spezi-api
     ```
 
