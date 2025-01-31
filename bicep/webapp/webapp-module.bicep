@@ -10,8 +10,11 @@ param appServicePlanId string
 @description('Docker image URL')
 param dockerImageUrl string
 
-@description('ID of the Virtual Network')
-param vnetId string
+@description('Name of the Virtual Network')
+param vnetName string
+
+@description('Name of the Subnet')
+param subnetName string = 'default'
 
 resource webApp 'Microsoft.Web/sites@2021-02-01' = {
   name: webAppName
@@ -21,7 +24,7 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
     siteConfig: {
       linuxFxVersion: dockerImageUrl
     }
-    virtualNetworkSubnetId: resourceId('Microsoft.Network/virtualNetworks/subnets', vnetId, 'default')
+    virtualNetworkSubnetId: resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
   }
 }
 

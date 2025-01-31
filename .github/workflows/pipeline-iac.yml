@@ -22,7 +22,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup Azure CLI
+    - name: Run Bicep
       uses: azure/CLI@v1
       with:
         inlineScript: |
