@@ -67,7 +67,8 @@ module webAppModule './webapp/webapp-module.bicep' = {
     location: location
     appServicePlanId: appservicePlanModule.outputs.appServicePlanId
     dockerImageUrl: '${acrModule.outputs.acrLoginServer}/spezi-api:latest'
-    vnetId: vnetModule.outputs.vnetId
+    vnetName: vnetName
+    subnetName: 'default'
   }
   dependsOn: [
   ]
