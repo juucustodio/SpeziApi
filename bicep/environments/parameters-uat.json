@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "appServicePlanName": {
+        "value": "asp-uat-br-speziapi"
+      },
+      "skuTier": {
+        "value": "Standard"
+      },
+      "skuName": {
+        "value": "P1v2"
+      },
+      "minimumInstances": {
+        "value": 1
+      },
+      "maximumElasticWorkerCount": {
+        "value": 2
+      },
+      "elasticScaleEnabled": {
+        "value": true
+      },
+      "acrName": {
+        "value": "acruatspeziapi"
+      },
+      "webAppName": {
+        "value": "ase-uat-br-speziapi"
+      },
+      "location": {
+        "value": "brazilsouth"
+      },
+      "enableDdosProtection": {
+        "value": true
+      },
+      "vnetName": {
+        "value": "vnet-uat-br-speziapi"
+      }
+    }
+  }
