@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-COPY COPY src/ ./src/
+COPY src/ ./src/
 
 RUN dotnet restore ./src/Spezi.Api/Spezi.Api.csproj
 
