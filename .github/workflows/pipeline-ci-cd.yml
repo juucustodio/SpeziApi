@@ -27,7 +27,7 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t spezi-api:latest .
+        docker build -t spezi-api:latest -f ./Dockerfile .
 
     - name: Save Docker Image
       uses: actions/upload-artifact@v4
