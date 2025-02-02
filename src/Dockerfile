@@ -2,9 +2,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# Copy the solution file and restore as distinct layers
-COPY *.sln ./
-COPY src/Spezi.Api/*.csproj ./src/Spezi.Api/
+COPY COPY src/ ./src/
+
 RUN dotnet restore ./src/Spezi.Api/Spezi.Api.csproj
 
 # Copy everything else and build
