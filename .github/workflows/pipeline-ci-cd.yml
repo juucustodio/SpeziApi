@@ -27,14 +27,14 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t spezi-api:latest -f ./Dockerfile .
+        docker build -t spezi-api:latest -f ./src/Dockerfile .
 
     - name: Save Docker Image
       uses: actions/upload-artifact@v4
       with:
         name: docker-image
         path: |
-          ./Dockerfile
+          ./src/Dockerfile
           ./src/Spezi.Api/bin/Release/net9.0/publish
 
   deploy_iac:
