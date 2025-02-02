@@ -41,7 +41,7 @@ jobs:
         docker build -t spezi-api:latest .
 
     - name: Save Docker Image
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: docker-image
         path: |
@@ -73,8 +73,8 @@ jobs:
     - name: Set ACR Credentials
       run: |
         echo "ACR_LOGIN_SERVER=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrLoginServer.value" -o tsv)" >> $GITHUB_ENV
-        echo "ACR_USERNAME=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --query "properties.outputs.acrAdminUsername.value" -o tsv)" >> $GITHUB_ENV
-        echo "ACR_PASSWORD=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --query "properties.outputs.acrAdminPassword.value" -o tsv)" >> $GITHUB_ENV
+        echo "ACR_USERNAME=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminUsername.value" -o tsv)" >> $GITHUB_ENV
+        echo "ACR_PASSWORD=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminPassword.value" -o tsv)" >> $GITHUB_ENV
 
   deploy_app:
     runs-on: ubuntu-latest
@@ -90,7 +90,7 @@ jobs:
         sudo apt-get install -y docker.io
 
     - name: Download Docker Image
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: docker-image
         path: ./docker-image
