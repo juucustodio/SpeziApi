@@ -99,7 +99,7 @@ jobs:
 
     - name: Load Docker Image
       run: |
-        docker load -i ./docker-image/docker-image.tar
+        docker load -i /home/runner/work/SpeziApi/SpeziApi/docker-image/docker-image.tar
 
     - name: Push Docker Image to ACR
       run: |
