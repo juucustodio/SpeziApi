@@ -1,0 +1,19 @@
+# Use the official .NET image as a build stage
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /app
+
+# Copy the csproj and restore as distinct layers
+COPY *.sln .
+COPY src/Spezi.Api/*.csproj ./src/Spezi.Api/
+RUN dotnet restore
+
+# Copy everything else and build
+COPY src/Spezi.Api/. ./src/Spezi.Api/
+WORKDIR /app/src/Spezi.Api
+RUN dotnet publish -c Release -o out
+
+# Use the official .NET runtime image as a runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/src/Spezi.Api/out ./
+ENTRYPOINT ["dotnet", "Spezi.Api.dll"]

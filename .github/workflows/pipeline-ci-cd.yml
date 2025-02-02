@@ -1,0 +1,106 @@
+name: Build and Deploy Infrastructure and App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - sit
+          - uat
+          - prd
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Azure CLI
+      uses: azure/CLI@v1
+
+    - name: Install Bicep CLI
+      run: |
+        az bicep install
+
+    - name: Validate Bicep files
+      run: |
+        az bicep build --file ./bicep/main.bicep
+
+    - name: Build Docker Image
+      run: |
+        docker build -t spezi-api:latest .
+
+    - name: Save Docker Image
+      uses: actions/upload-artifact@v2
+      with:
+        name: docker-image
+        path: |
+          ./Dockerfile
+          ./src/Spezi.Api/bin/Release/net9.0/publish
+
+  deploy_iac:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Azure CLI
+      uses: azure/CLI@v1
+
+    - name: Install Bicep CLI
+      run: |
+        az bicep install
+
+    - name: Deploy Infrastructure
+      id: deploy_infra
+      run: |
+        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+        az group create --name 'rg-${{ github.event.inputs.environment }}-br-speziapi' --location brazilsouth
+        az deployment group create --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --template-file ./bicep/main.bicep --parameters ./bicep/environments/parameters-${{ github.event.inputs.environment }}.json --query "properties.outputs"
+
+    - name: Set ACR Credentials
+      run: |
+        echo "ACR_LOGIN_SERVER=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrLoginServer.value" -o tsv)" >> $GITHUB_ENV
+        echo "ACR_USERNAME=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --query "properties.outputs.acrAdminUsername.value" -o tsv)" >> $GITHUB_ENV
+        echo "ACR_PASSWORD=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --query "properties.outputs.acrAdminPassword.value" -o tsv)" >> $GITHUB_ENV
+
+  deploy_app:
+    runs-on: ubuntu-latest
+    needs: deploy_iac
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+
+    - name: Download Docker Image
+      uses: actions/download-artifact@v2
+      with:
+        name: docker-image
+        path: ./docker-image
+
+    - name: Load Docker Image
+      run: |
+        docker load -i ./docker-image
+
+    - name: Push Docker Image to ACR
+      run: |
+        echo ${{ env.ACR_PASSWORD }} | docker login ${{ env.ACR_LOGIN_SERVER }} --username ${{ env.ACR_USERNAME }} --password-stdin
+        docker tag spezi-api:latest ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest
+        docker push ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest
