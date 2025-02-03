@@ -85,7 +85,6 @@ module keyVaultModule './keyvault/keyvault-module.bicep' = {
   params: {
     keyVaultName: keyVaultName
     location: location
-    appRegistrationClientId: appRegistrationClientId
   }
 }
 
