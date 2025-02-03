@@ -34,6 +34,9 @@
       },
       "vnetName": {
         "value": "vnet-prd-br-speziapi"
+      },
+      "keyVaultName": {
+        "value": "akv-prd-br-speziapi"
       }
     }
   }

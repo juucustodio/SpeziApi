@@ -31,6 +31,9 @@ param enableDdosProtection bool = true
 @description('Name of the Virtual Network')
 param vnetName string
 
+@description('Name of the KeyVault')
+param keyVaultName string
+
 module appservicePlanModule './appServicePlan/appserviceplan-module.bicep' = {
   name: 'appservicePlanDeploy'
   params: {
@@ -72,6 +75,14 @@ module webAppModule './webapp/webapp-module.bicep' = {
   }
   dependsOn: [
   ]
+}
+
+module keyVaultModule './keyvault/keyvault-module.bicep' = {
+  name: 'keyVaultDeploy'
+  params: {
+    keyVaultName: keyVaultName
+    location: location
+  }
 }
 
 output webAppHostname string = webAppModule.outputs.webAppHostname
