@@ -34,6 +34,9 @@ param vnetName string
 @description('Name of the KeyVault')
 param keyVaultName string
 
+@description('App registrarion ID')
+param appRegistrationClientId string
+
 module appservicePlanModule './appServicePlan/appserviceplan-module.bicep' = {
   name: 'appservicePlanDeploy'
   params: {
@@ -82,6 +85,7 @@ module keyVaultModule './keyvault/keyvault-module.bicep' = {
   params: {
     keyVaultName: keyVaultName
     location: location
+    appRegistrationClientId: appRegistrationClientId
   }
 }
 

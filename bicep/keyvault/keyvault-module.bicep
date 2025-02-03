@@ -13,8 +13,8 @@ param enableSoftDelete bool = false
 @description('Enable purge protection for the Key Vault')
 param enablePurgeProtection bool = false
 
-@description('Access policies for the Key Vault')
-param accessPolicies array = []
+@description('Client ID of the App Registration')
+param appRegistrationClientId string
 
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
   name: keyVaultName
@@ -25,11 +25,54 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
       name: skuName
     }
     tenantId: subscription().tenantId
-    accessPolicies: accessPolicies
+    accessPolicies: [
+      {
+        tenantId: subscription().tenantId
+        objectId: appRegistrationClientId
+        permissions: {
+          keys: [
+            'get'
+            'list'
+            'create'
+            'update'
+            'import'
+            'delete'
+            'backup'
+            'restore'
+            'recover'
+            'purge'
+          ]
+          secrets: [
+            'get'
+            'list'
+            'set'
+            'delete'
+            'backup'
+            'restore'
+            'recover'
+            'purge'
+          ]
+          certificates: [
+            'get'
+            'list'
+            'delete'
+            'create'
+            'import'
+            'update'
+            'managecontacts'
+            'getissuers'
+            'listissuers'
+            'setissuers'
+            'deleteissuers'
+            'manageissuers'
+            'recover'
+            'purge'
+          ]
+        }
+      }
+    ]
     enableSoftDelete: enableSoftDelete
-    // Only set enablePurgeProtection if it is false
-    // If it is true, it cannot be reverted to false
-    enablePurgeProtection: enablePurgeProtection ? enablePurgeProtection : null
+    enablePurgeProtection: enablePurgeProtection
   }
 }
 

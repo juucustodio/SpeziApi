@@ -48,30 +48,22 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az bicep install
+          az bicep install
 
     - name: Validate Bicep files
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az bicep build --file ./bicep/main.bicep
+          az bicep build --file ./bicep/main.bicep
 
     - name: Deploy Infrastructure
       id: deploy_infra
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-            az group create --name 'rg-${{ github.event.inputs.environment }}-br-speziapi' --location brazilsouth
-            az deployment group create --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --template-file ./bicep/main.bicep --parameters ./bicep/environments/parameters-${{ github.event.inputs.environment }}.json --query "properties.outputs"
-
-    - name: Set ACR Credentials
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-            echo "ACR_LOGIN_SERVER=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrLoginServer.value" -o tsv)" >> $GITHUB_ENV
-            echo "ACR_USERNAME=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminUsername.value" -o tsv)" >> $GITHUB_ENV
-            echo "ACR_PASSWORD=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminPassword.value" -o tsv)" >> $GITHUB_ENV
+          az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az group create --name 'rg-${{ github.event.inputs.environment }}-br-speziapi' --location brazilsouth
+          az deployment group create --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --template-file ./bicep/main.bicep --parameters ./bicep/environments/parameters-${{ github.event.inputs.environment }}.json appRegistrationClientId=${{ secrets.AZURE_CLIENT_ID }} --query "properties.outputs"
 
     - name: Set ACR Credentials in Key Vault
       run: |
