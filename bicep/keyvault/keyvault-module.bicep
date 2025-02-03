@@ -72,7 +72,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
       }
     ]
     enableSoftDelete: enableSoftDelete
-    enablePurgeProtection: enablePurgeProtection
+    enablePurgeProtection: enablePurgeProtection ? enablePurgeProtection : null
   }
 }
 
