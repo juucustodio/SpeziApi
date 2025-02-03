@@ -70,6 +70,8 @@ jobs:
       with:
         inlineScript: |
           az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az keyvault set-policy --name akv-${{ github.event.inputs.environment }}-br-speziapi --spn ${{ secrets.AZURE_CLIENT_ID }} --secret-permissions get list set delete
+          
           ACR_LOGIN_SERVER=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrLoginServer.value" -o tsv)
           ACR_USERNAME=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminUsername.value" -o tsv)
           ACR_PASSWORD=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminPassword.value" -o tsv)
