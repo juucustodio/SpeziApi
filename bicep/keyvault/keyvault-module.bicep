@@ -27,7 +27,9 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     tenantId: subscription().tenantId
     accessPolicies: accessPolicies
     enableSoftDelete: enableSoftDelete
-    enablePurgeProtection: enablePurgeProtection
+    // Only set enablePurgeProtection if it is false
+    // If it is true, it cannot be reverted to false
+    enablePurgeProtection: enablePurgeProtection ? enablePurgeProtection : null
   }
 }
 
