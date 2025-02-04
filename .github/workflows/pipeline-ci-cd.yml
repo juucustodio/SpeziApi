@@ -135,4 +135,4 @@ jobs:
 
     - name: Apply Latest Image to Web App
       run: |
-          az webapp config container set --name <your-webapp-name> --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --docker-custom-image-name ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest --docker-registry-server-url https://${{ env.ACR_LOGIN_SERVER }} --docker-registry-server-user ${{ env.ACR_USERNAME }} --docker-registry-server-password ${{ env.ACR_PASSWORD }}
+          az webapp config container set --name ase-${{ github.event.inputs.environment }}-br-speziapi --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --docker-custom-image-name ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest --docker-registry-server-url https://${{ env.ACR_LOGIN_SERVER }} --docker-registry-server-user ${{ env.ACR_USERNAME }} --docker-registry-server-password ${{ env.ACR_PASSWORD }}
