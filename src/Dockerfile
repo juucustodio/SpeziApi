@@ -8,7 +8,9 @@ COPY . ./src
 # List files for debugging
 RUN ls -la /app
 RUN ls -la /app/src
-RUN ls -la /app/src/Spezi.Api
+
+# Verifica se o diretório Spezi.Api existe
+RUN if [ -d "/app/src/Spezi.Api" ]; then echo "Directory exists"; else echo "Directory does not exist"; fi
 
 WORKDIR /app/src/Spezi.Api
 
@@ -26,5 +28,5 @@ WORKDIR /app
 COPY --from=build /out .
 
 # Exposição da porta e execução da aplicação
-EXPOSE 8080
+EXPOSE 80
 ENTRYPOINT ["dotnet", "Spezi.Api.dll"]

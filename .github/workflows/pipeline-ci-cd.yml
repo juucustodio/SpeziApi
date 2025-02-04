@@ -27,7 +27,7 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t spezi-api:latest -f ./src/Dockerfile .
+        docker build --no-cache -t spezi-api:latest -f ./src/Dockerfile .
         docker save -o docker-image.tar spezi-api:latest
 
     - name: Save Docker Image
