@@ -20,12 +20,12 @@ RUN ls -la /app/src/Spezi.Api
 RUN dotnet restore Spezi.Api.csproj
 
 # Copia o restante do código e compila a aplicação
-RUN dotnet publish Spezi.Api.csproj -c Release -o /out
+RUN dotnet publish Spezi.Api.csproj -c Release -o /app/out
 
 # Etapa 2: Runtime da aplicação
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
-COPY --from=build /out .
+COPY --from=build /app/out .
 
 # Exposição da porta e execução da aplicação
 EXPOSE 80
