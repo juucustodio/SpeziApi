@@ -70,7 +70,12 @@ jobs:
       with:
         inlineScript: |
           az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          echo "Get Azure Subscription ID"
+          AZURE_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           
+          echo "Key Vault Secrets User"
+          az role assignment create --role "Key Vault Secrets User" --assignee ${{ secrets.AZURE_CLIENT_ID }} --scope /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/rg-${{ github.event.inputs.environment }}-br-speziapi/providers/Microsoft.KeyVault/vaults/akv-${{ github.event.inputs.environment }}-br-speziapi
+
           ACR_LOGIN_SERVER=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrLoginServer.value" -o tsv)
           ACR_USERNAME=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminUsername.value" -o tsv)
           ACR_PASSWORD=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminPassword.value" -o tsv)
