@@ -63,4 +63,63 @@ jobs:
         inlineScript: |
           az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
           az group create --name 'rg-${{ github.event.inputs.environment }}-br-speziapi' --location brazilsouth
-          az deployment group create --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --template-file ./bicep/main.bicep --parameters ./bicep/environments/parameters-${{ github.event.inputs.environment }}.json appRegistrationClientId=${{ secrets.AZURE_CLIENT_ID }} --quer
+          az deployment group create --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --template-file ./bicep/main.bicep --parameters ./bicep/environments/parameters-${{ github.event.inputs.environment }}.json appRegistrationClientId=${{ secrets.AZURE_CLIENT_ID }} --query "properties.outputs"
+
+    - name: Set ACR Credentials in Key Vault
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          
+          ACR_LOGIN_SERVER=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrLoginServer.value" -o tsv)
+          ACR_USERNAME=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminUsername.value" -o tsv)
+          ACR_PASSWORD=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminPassword.value" -o tsv)
+
+          az keyvault secret set --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-LOGIN-SERVER --value "$ACR_LOGIN_SERVER"
+          az keyvault secret set --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-USERNAME --value "$ACR_USERNAME"
+          az keyvault secret set --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-PASSWORD --value "$ACR_PASSWORD"
+
+
+  deploy_app:
+    runs-on: ubuntu-latest
+    needs: deploy_iac
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        sudo apt-get update
+        sudo apt-get install -y docker-ce
+
+    - name: Download Docker Image
+      uses: actions/download-artifact@v4
+      with:
+        name: docker-image
+        path: .
+
+    - name: Load Docker Image
+      run: |
+        docker load -i docker-image.tar
+
+    - name: Retrieve ACR Credentials from Key Vault
+      run: |
+        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          
+        ACR_LOGIN_SERVER=$(az keyvault secret show --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-LOGIN-SERVER --query "value" -o tsv)
+        ACR_USERNAME=$(az keyvault secret show --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-USERNAME --query "value" -o tsv)
+        ACR_PASSWORD=$(az keyvault secret show --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-PASSWORD --query "value" -o tsv)
+        echo "ACR_LOGIN_SERVER=$ACR_LOGIN_SERVER" >> $GITHUB_ENV
+        echo "ACR_USERNAME=$ACR_USERNAME" >> $GITHUB_ENV
+        echo "ACR_PASSWORD=$ACR_PASSWORD" >> $GITHUB_ENV
+
+    - name: Push Docker Image to ACR
+      run: |
+        echo ${{ env.ACR_PASSWORD }} | docker login ${{ env.ACR_LOGIN_SERVER }} --username ${{ env.ACR_USERNAME }} --password-stdin
+        docker tag spezi-api:latest ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest
+        docker push ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest
