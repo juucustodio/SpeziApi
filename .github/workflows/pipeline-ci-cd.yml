@@ -124,6 +124,15 @@ jobs:
 
     - name: Push Docker Image to ACR
       run: |
+        IMAGE_TAG=$(uuidgen)
+        echo $IMAGE_TAG
         echo ${{ env.ACR_PASSWORD }} | docker login ${{ env.ACR_LOGIN_SERVER }} --username ${{ env.ACR_USERNAME }} --password-stdin
         docker tag spezi-api:latest ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest
+        docker tag spezi-api:latest ${{ env.ACR_LOGIN_SERVER }}/spezi-api:$IMAGE_TAG
         docker push ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest
+        docker push ${{ env.ACR_LOGIN_SERVER }}/spezi-api:$IMAGE_TAG
+
+
+    - name: Apply Latest Image to Web App
+      run: |
+          az webapp config container set --name <your-webapp-name> --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --docker-custom-image-name ${{ env.ACR_LOGIN_SERVER }}/spezi-api:latest --docker-registry-server-url https://${{ env.ACR_LOGIN_SERVER }} --docker-registry-server-user ${{ env.ACR_USERNAME }} --docker-registry-server-password ${{ env.ACR_PASSWORD }}
