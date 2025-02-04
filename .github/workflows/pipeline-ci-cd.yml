@@ -74,8 +74,8 @@ jobs:
           AZURE_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           
           echo "Key Vault Secrets User"
-          az role assignment create --role "Key Vault Secrets User" --assignee ${{ secrets.AZURE_CLIENT_ID }} --scope /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/rg-${{ github.event.inputs.environment }}-br-speziapi/providers/Microsoft.KeyVault/vaults/akv-${{ github.event.inputs.environment }}-br-speziapi
-
+          az role assignment create --role "Key Vault Administrator" --assignee ${{ secrets.AZURE_CLIENT_ID }} --scope /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/rg-${{ github.event.inputs.environment }}-br-speziapi/providers/Microsoft.KeyVault/vaults/akv-${{ github.event.inputs.environment }}-br-speziapi
+          sleep 30
           ACR_LOGIN_SERVER=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrLoginServer.value" -o tsv)
           ACR_USERNAME=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminUsername.value" -o tsv)
           ACR_PASSWORD=$(az deployment group show --resource-group rg-${{ github.event.inputs.environment }}-br-speziapi --name acrDeploy --query "properties.outputs.acrAdminPassword.value" -o tsv)
@@ -83,7 +83,6 @@ jobs:
           az keyvault secret set --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-LOGIN-SERVER --value "$ACR_LOGIN_SERVER"
           az keyvault secret set --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-USERNAME --value "$ACR_USERNAME"
           az keyvault secret set --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-PASSWORD --value "$ACR_PASSWORD"
-
 
   deploy_app:
     runs-on: ubuntu-latest
