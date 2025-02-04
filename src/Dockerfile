@@ -1,28 +1,31 @@
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-WORKDIR /app
-EXPOSE 8080
-
+# Etapa 1: Build da aplicação
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-WORKDIR /src
-
-# Copia os arquivos de solução e projeto
-COPY ["SpeziApiSolution.sln", "./"]
-COPY ["Spezi.Api/Spezi.Api.csproj", "Spezi.Api/"]
-COPY ["Spezi.Application/Spezi.Application.csproj", "Spezi.Application/"]
-COPY ["Spezi.Domain/Spezi.Domain.csproj", "Spezi.Domain/"]
-
-# Restaura as dependências
-RUN dotnet restore "Spezi.Api/Spezi.Api.csproj"
-
-# Copia todo o código-fonte
-COPY . .
-
-WORKDIR "/src/Spezi.Api"
-RUN dotnet publish -c Release -o /app/publish
-
-# Imagem final
-FROM base AS final
 WORKDIR /app
-COPY --from=build /app/publish .
 
+# Copia os arquivos do projeto e restaura as dependências
+COPY . ./src
+
+# List files for debugging
+RUN ls -la /app
+RUN ls -la /app/src
+RUN ls -la /app/src/Spezi.Api
+
+WORKDIR /app/src/Spezi.Api
+
+# List files for debugging
+RUN ls -la /app/src/Spezi.Api
+
+RUN dotnet restore Spezi.Api.csproj
+
+# Copia o restante do código e compila a aplicação
+RUN dotnet publish Spezi.Api.csproj -c Release -o /out
+
+RUN ls -la /out
+# Etapa 2: Runtime da aplicação
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+WORKDIR /app
+COPY --from=build /out .
+
+# Exposição da porta e execução da aplicação
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "Spezi.Api.dll"]
