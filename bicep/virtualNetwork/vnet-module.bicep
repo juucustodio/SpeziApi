@@ -32,16 +32,16 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
         }
       }
     ]
-    ddosProtectionPlan: {
-      id: ddosProtectionPlan.id
-    }
+    // ddosProtectionPlan: {
+    //   id: ddosProtectionPlan.id
+    // }
   }
 }
 
-resource ddosProtectionPlan 'Microsoft.Network/ddosProtectionPlans@2020-11-01' = if (enableDdosProtection) {
-  name: '${vnetName}-ddos-plan'
-  location: location
-  properties: {}
-}
+// resource ddosProtectionPlan 'Microsoft.Network/ddosProtectionPlans@2020-11-01' = if (enableDdosProtection) {
+//   name: '${vnetName}-ddos-plan'
+//   location: location
+//   properties: {}
+// }
 
 output vnetId string = vnet.id
