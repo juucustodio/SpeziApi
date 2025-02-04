@@ -86,7 +86,7 @@ dotnet run
 
 #### Example request using the `Spezi.Api.http` file:
 ```plaintext
-@Spezi.Api_HostAddress = http://localhost:5262
+@Spezi.Api_HostAddress = http://localhost:8080
 
 GET {{Spezi.Api_HostAddress}}/api/RandomNumber
 Accept: application/json
@@ -133,7 +133,7 @@ az deployment group create --resource-group <your-resource-group> --template-fil
 ## 📜 Swagger UI
 
 The interactive API documentation can be accessed through Swagger UI.
-- Start the application and navigate to: [http://localhost:5262/index.html](http://localhost:5262/index.html)
+- Start the application and navigate to: [http://localhost:8080/index.html](http://localhost:8080/index.html)
 
 ---
 
