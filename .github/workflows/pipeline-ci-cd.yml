@@ -109,6 +109,8 @@ jobs:
 
     - name: Retrieve ACR Credentials from Key Vault
       run: |
+        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          
         ACR_LOGIN_SERVER=$(az keyvault secret show --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-LOGIN-SERVER --query "value" -o tsv)
         ACR_USERNAME=$(az keyvault secret show --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-USERNAME --query "value" -o tsv)
         ACR_PASSWORD=$(az keyvault secret show --vault-name akv-${{ github.event.inputs.environment }}-br-speziapi --name ACR-PASSWORD --query "value" -o tsv)
