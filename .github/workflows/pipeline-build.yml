@@ -21,6 +21,12 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '9.0.x'
+        
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:        
+        java-version: 17
+        distribution: temurin
 
     - name: Restore dependencies
       run: dotnet restore ./src/Spezi.Api/Spezi.Api.csproj
