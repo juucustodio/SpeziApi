@@ -29,7 +29,7 @@ jobs:
         distribution: temurin
 
     - name: Restore dependencies
-      run: dotnet restore ./src/Spezi.Api/Spezi.Api.csproj
+      run: dotnet restore src/Spezi.Api/Spezi.Api.csproj
 
     - name: Setup SonarCloud Scanner
       run: dotnet tool install --global dotnet-sonarscanner
@@ -46,11 +46,11 @@ jobs:
         PROJECT_KEY: ${{ secrets.PROJECT_KEY }}
         SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
       run: |
-        dotnet-sonarscanner begin /k:"$PROJECT_KEY" /o:"$SONAR_ORGANIZATION" /d:sonar.token="$SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=./TestResults/CoverageReport/coverage.cobertura.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**"
-        
-        dotnet build --configuration Release
+        dotnet-sonarscanner begin /k:"$PROJECT_KEY" /o:"$SONAR_ORGANIZATION" /d:sonar.token="$SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=./TestResults/CoverageReport/coverage.cobertura.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**" /d:sonar.scanner.skipJreProvisioning=true
 
-        dotnet test --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
+        dotnet build src/Spezi.Api/Spezi.Api.csproj --configuration Release
+
+        dotnet test src/Spezi.Api/Spezi.Api.csproj --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
         
         reportgenerator -reports:./TestResults/**/coverage.cobertura.xml -targetdir:./TestResults/CoverageReport -reporttypes:Cobertura
         
