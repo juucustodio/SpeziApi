@@ -8,7 +8,7 @@ WORKDIR /app
 RUN dotnet restore /app/src/Spezi.Api/Spezi.Api.csproj
 
 
-RUN dotnet publish Spezi.Api.csproj -c Release -o /app/out
+RUN dotnet publish /app/src/Spezi.Api/Spezi.Api.csproj -c Release -o /app/out
 
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
