@@ -1,3 +1,6 @@
+[![SpeziApi Build Test](https://github.com/juucustodio/SpeziApi/actions/workflows/pipeline-build.yml/badge.svg)](https://github.com/juucustodio/SpeziApi/actions/workflows/pipeline-build.yml)
+[![SonarCloud - Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=juucustodio_SpeziApi&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=juucustodio_SpeziApi)
+
 # Spezi API
 
 Spezi API is an API created for study purposes. The goal of this project is to explore various functionalities using .NET, Domain-Driven Design (DDD), GitHub Actions, Bicep, and Azure Cloud.
@@ -147,6 +150,9 @@ Ensure the following secrets are configured in your GitHub repository:
 - `AZURE_CLIENT_ID`: The client ID of the Azure AD application.
 - `AZURE_CLIENT_SECRET`: The client secret of the Azure AD application.
 - `AZURE_TENANT_ID`: The tenant ID of your Azure AD.
+- `PROJECT_KEY`: The unique key of your project in SonarCloud. This key is used to identify your project in SonarCloud.
+- `SONAR_ORGANIZATION`: The key of your organization in SonarCloud. This key is used to identify your organization in SonarCloud.
+- `SONAR_TOKEN`: The authentication token for SonarCloud. This token is used to authenticate API requests to SonarCloud.
 
 #### Example Command to Deploy Bicep Manually
 Replace `<your-resource-group>` with the name of your Azure resource group.
