@@ -38,9 +38,9 @@ jobs:
     - name: Build and Test
       run: |
         export PATH="$PATH:~/.dotnet/tools"
-        ./.sonar/scanner/dotnet-sonarscanner begin /k:"${{ secrets.PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=./TestResults/CoverageReport/coverage.cobertura.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**"
+        ./.sonar/scanner/dotnet-sonarscanner begin /k:"${{ secrets.PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=./TestResults/CoverageReport/coverage.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**"
         dotnet build --configuration Release
         dotnet test --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
-        reportgenerator -reports:./TestResults/*/coverage.cobertura.xml -targetdir:./TestResults/CoverageReport -reporttypes:Cobertura
+        reportgenerator -reports:./TestResults/**/coverage.xml -targetdir:./TestResults/CoverageReport -reporttypes:Cobertura
         ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
       working-directory: src
