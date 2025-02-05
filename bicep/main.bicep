@@ -34,9 +34,6 @@ param vnetName string
 @description('Name of the KeyVault')
 param keyVaultName string
 
-@description('App registrarion ID')
-param appRegistrationClientId string
-
 @description('Name of the Log Analytics workspace')
 param logAnalyticsWorkspaceName string
 
