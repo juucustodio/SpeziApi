@@ -29,18 +29,24 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
     serverFarmId: appServicePlanId
     siteConfig: {
       linuxFxVersion: dockerImageUrl
+      appSettings: [
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: appInsightsInstrumentationKey
+        }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsightsConnectionString
+        }
+        {
+          name: 'ApplicationInsightsAgent_EXTENSION_VERSION'
+          value: '~3'
+        }
+      ]
     }
     virtualNetworkSubnetId: resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
   }
 }
 
-resource webAppSettings 'Microsoft.Web/sites/config@2021-02-01' = {
-  name: '${webAppName}/appsettings'
-  properties: {
-    'APPINSIGHTS_INSTRUMENTATIONKEY': appInsightsInstrumentationKey
-    'APPLICATIONINSIGHTS_CONNECTION_STRING': appInsightsConnectionString
-    'ApplicationInsightsAgent_EXTENSION_VERSION': '~2'
-  }
-}
 
 output webAppHostname string = webApp.properties.defaultHostName
