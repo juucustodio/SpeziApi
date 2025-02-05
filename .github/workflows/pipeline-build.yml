@@ -11,65 +11,33 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    name: BuildTest
+    runs-on: windows-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
 
+    - uses: actions/checkout@v4
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.0.x'
+        dotnet-version: '9.0.x'       
 
     - name: Setup Java
       uses: actions/setup-java@v4
       with:        
         java-version: 17
         distribution: temurin
-
-    - name: Restore dependencies
-      run: dotnet restore src/Spezi.Api/Spezi.Api.csproj
-
-    - name: Setup SonarCloud Scanner
-      run: dotnet tool install --global dotnet-sonarscanner
-
-    - name: Install dotnet-coverage
-      run: dotnet tool install --global dotnet-coverage
-
-    - name: Install ReportGenerator
-      run: dotnet tool install --global dotnet-reportgenerator-globaltool
-
-    - name: Build and Test
-      run: |
-        export PATH="$PATH:~/.dotnet/tools"
-        ./.sonar/scanner/dotnet-sonarscanner begin /k:"${{ secrets.PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=./TestResults/CoverageReport/coverage.cobertura.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**"
         
-        dotnet build --configuration Release
-    
-        echo "Criando diretório para os resultados de testes..."
-        mkdir -p ./TestResults  # Garante que a pasta existe
-    
-        echo "Executando testes e coletando cobertura de código..."
-        dotnet test src/Spezi.Api/Spezi.Api.csproj --configuration Release \
-          --collect:"XPlat Code Coverage" \
-          --results-directory ./TestResults \
-          --logger "trx;LogFileName=test-results.trx"
-    
-        echo "Listando arquivos gerados em ./TestResults..."
-        ls -R ./TestResults || true  # Lista os arquivos gerados para depuração
-    
-        echo "Verificando se o relatório de cobertura foi gerado..."
-        COVERAGE_FILE=$(find ./TestResults -name 'coverage.cobertura.xml' | head -n 1)
-    
-        if [ -z "$COVERAGE_FILE" ]; then
-          echo "Erro: Nenhum arquivo de cobertura encontrado!"
-          exit 1
-        fi
-    
-        echo "Arquivo de cobertura encontrado: $COVERAGE_FILE"
-        reportgenerator -reports:$COVERAGE_FILE -targetdir:./TestResults/CoverageReport -reporttypes:Cobertura
-    
-        ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+    - name: Setup SonarCloud Scanner      
+      run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
       working-directory: src
-    
+               
+    - name: Build
+      run: |          
+          dotnet tool install --global dotnet-coverage
+
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ secrets.PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**"
+          dotnet build --configuration Release
+          dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+      working-directory: src
