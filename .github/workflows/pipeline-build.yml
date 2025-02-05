@@ -15,10 +15,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
 
@@ -32,8 +32,7 @@ jobs:
       run: dotnet restore ./src/Spezi.Api/Spezi.Api.csproj
 
     - name: Setup SonarCloud Scanner
-      run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
-      working-directory: src
+      run: dotnet tool install --global dotnet-sonarscanner
 
     - name: Install dotnet-coverage
       run: dotnet tool install --global dotnet-coverage
@@ -41,13 +40,20 @@ jobs:
     - name: Install ReportGenerator
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-    - name: Build and Test
+    - name: Build and Test with Sonar Analysis
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        PROJECT_KEY: ${{ secrets.PROJECT_KEY }}
+        SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
       run: |
-        export PATH="$PATH:~/.dotnet/tools"
-        ./.sonar/scanner/dotnet-sonarscanner begin /k:"${{ secrets.PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=./TestResults/CoverageReport/coverage.cobertura.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**"
+        dotnet-sonarscanner begin /k:"$PROJECT_KEY" /o:"$SONAR_ORGANIZATION" /d:sonar.token="$SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=./TestResults/CoverageReport/coverage.cobertura.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**"
+        
         dotnet build --configuration Release
+
         dotnet test --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
+        
         reportgenerator -reports:./TestResults/**/coverage.cobertura.xml -targetdir:./TestResults/CoverageReport -reporttypes:Cobertura
+        
         ls -R ./TestResults
-        ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-      working-directory: src
+
+        dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
