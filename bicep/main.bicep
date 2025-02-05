@@ -34,8 +34,11 @@ param vnetName string
 @description('Name of the KeyVault')
 param keyVaultName string
 
-@description('App registrarion ID')
-param appRegistrationClientId string
+@description('Name of the Log Analytics workspace')
+param logAnalyticsWorkspaceName string
+
+@description('Name of the Application Insights resource')
+param appInsightsName string
 
 module appservicePlanModule './appServicePlan/appserviceplan-module.bicep' = {
   name: 'appservicePlanDeploy'
@@ -66,6 +69,15 @@ module vnetModule './virtualNetwork/vnet-module.bicep' = {
   }
 }
 
+module logAnalyticsModule './logAnalytics/logAnalytics-module.bicep' = {
+  name: 'logAnalyticsDeploy'
+  params: {
+    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
+    appInsightsName: appInsightsName
+    location: location
+  }
+}
+
 module webAppModule './webapp/webapp-module.bicep' = {
   name: 'webAppDeploy'
   params: {
@@ -75,8 +87,11 @@ module webAppModule './webapp/webapp-module.bicep' = {
     dockerImageUrl: '${acrModule.outputs.acrLoginServer}/spezi-api:latest'
     vnetName: vnetName
     subnetName: 'default'
+    appInsightsInstrumentationKey: logAnalyticsModule.outputs.appInsightsInstrumentationKey
+    appInsightsConnectionString: logAnalyticsModule.outputs.appInsightsConnectionString
   }
   dependsOn: [
+    logAnalyticsModule
   ]
 }
 

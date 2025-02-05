@@ -37,6 +37,12 @@
       },
       "keyVaultName": {
         "value": "akv-dev-br-speziapi"
+      },
+      "logAnalyticsWorkspaceName": {
+        "value": "lw-dev-br-speziapi"
+      },
+      "appInsightsName": {
+        "value": "ai-dev-br-speziapi"
       }
     }
   }

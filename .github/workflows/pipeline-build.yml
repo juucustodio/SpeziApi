@@ -1,6 +1,7 @@
 name: Continuous Integration
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -24,6 +25,18 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./src/Spezi.Api/Spezi.Api.csproj
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore ./src/Spezi.Api/Spezi.Api.csproj
+    - name: Setup SonarCloud Scanner
+      run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+      working-directory: src
 
+    - name: Install dotnet-coverage
+      run: dotnet tool install --global dotnet-coverage
+
+    - name: Build and Analyze
+      run: |
+        export PATH="$PATH:~/.dotnet/tools"
+        ./.sonar/scanner/dotnet-sonarscanner begin /k:"${{ secrets.PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.exclusions="**.Database/**,**.Tests/**,**.Common*/**,**.WebApi*/**"
+        dotnet build --configuration Release
+        dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
+        ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+      working-directory: src
