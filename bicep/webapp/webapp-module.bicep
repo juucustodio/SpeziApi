@@ -16,6 +16,12 @@ param vnetName string
 @description('Name of the Subnet')
 param subnetName string = 'default'
 
+@description('Application Insights Instrumentation Key')
+param appInsightsInstrumentationKey string
+
+@description('Application Insights Connection String')
+param appInsightsConnectionString string
+
 resource webApp 'Microsoft.Web/sites@2021-02-01' = {
   name: webAppName
   location: location
@@ -25,6 +31,15 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
       linuxFxVersion: dockerImageUrl
     }
     virtualNetworkSubnetId: resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
+  }
+}
+
+resource webAppSettings 'Microsoft.Web/sites/config@2021-02-01' = {
+  name: '${webAppName}/appsettings'
+  properties: {
+    'APPINSIGHTS_INSTRUMENTATIONKEY': appInsightsInstrumentationKey
+    'APPLICATIONINSIGHTS_CONNECTION_STRING': appInsightsConnectionString
+    'ApplicationInsightsAgent_EXTENSION_VERSION': '~2'
   }
 }
 
