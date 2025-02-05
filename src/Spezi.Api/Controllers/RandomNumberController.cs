@@ -14,6 +14,7 @@ namespace Spezi.Api.Controllers
             _randomNumberService = randomNumberService;
         }
 
+
         /// <summary>
         /// Gets a random number.
         /// </summary>

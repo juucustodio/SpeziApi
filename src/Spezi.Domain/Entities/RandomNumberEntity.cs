@@ -9,4 +9,5 @@ namespace Spezi.Domain.Entities
             Value = value;
         }
     }
+    
 }
