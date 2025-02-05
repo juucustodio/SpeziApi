@@ -1,4 +1,4 @@
-@Spezi.Api_HostAddress = http://localhost:5262
+@Spezi.Api_HostAddress = http://localhost:8080
 
 GET {{Spezi.Api_HostAddress}}/api/RandomNumber
 Accept: application/json

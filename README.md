@@ -86,11 +86,37 @@ dotnet run
 
 #### Example request using the `Spezi.Api.http` file:
 ```plaintext
-@Spezi.Api_HostAddress = http://localhost:5262
+@Spezi.Api_HostAddress = http://localhost:8080
 
 GET {{Spezi.Api_HostAddress}}/api/RandomNumber
 Accept: application/json
 ```
+
+---
+
+## 🚢 Running the Project with Docker
+
+To run the application in a Docker container, follow these steps:
+
+### 1️⃣ Build the Docker image
+```sh
+docker build -t spezi-api .
+```
+
+### 2️⃣ Run the Docker container
+```sh
+docker run -d -p 8080:8080 --name spezi-api-container spezi-api
+```
+
+- **Local URL**: Access the application locally at [http://localhost:8080](http://localhost:8080)
+
+---
+
+## ☁️ Running the Project via Azure WebApp
+
+If you have deployed the project to Azure using GitHub Actions or manually, you can access the application via:
+
+- **WebApp URL**: [yourwebapp.azurewebsites.net](http://yourwebapp.azurewebsites.net)
 
 ---
 
@@ -133,7 +159,7 @@ az deployment group create --resource-group <your-resource-group> --template-fil
 ## 📜 Swagger UI
 
 The interactive API documentation can be accessed through Swagger UI.
-- Start the application and navigate to: [http://localhost:5262/index.html](http://localhost:5262/index.html)
+- Start the application and navigate to: [http://localhost:8080/index.html](http://localhost:8080/index.html)
 
 ---
 
