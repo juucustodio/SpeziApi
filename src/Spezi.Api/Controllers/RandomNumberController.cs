@@ -3,9 +3,8 @@ using Spezi.Domain.Interfaces;
 
 namespace Spezi.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-
+    [Route("api/[controller]")]
     public class RandomNumberController : ControllerBase
     {
         private readonly IRandomNumberService _randomNumberService;
@@ -15,11 +14,16 @@ namespace Spezi.Api.Controllers
             _randomNumberService = randomNumberService;
         }
 
+        /// <summary>
+        /// Gets a random number.
+        /// </summary>
+        /// <returns>A random number.</returns>
         [HttpGet]
-        public IActionResult Get()
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public IActionResult GetRandomNumber()
         {
             var randomValue = _randomNumberService.GenerateRandomNumber();
-            return Ok(new { number = randomValue });
+            return Ok(randomValue);
         }
     }
 }
