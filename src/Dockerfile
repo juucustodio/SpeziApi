@@ -2,10 +2,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-COPY . ./src
+COPY /src ./src
 
-WORKDIR /app/src/Spezi.Api
-RUN dotnet restore Spezi.Api.csproj
+WORKDIR /app
+RUN dotnet restore /app/src/Spezi.Api/Spezi.Api.csproj
 
 
 RUN dotnet publish Spezi.Api.csproj -c Release -o /app/out
