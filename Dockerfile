@@ -18,11 +18,7 @@ RUN dotnet build src/Spezi.Api/Spezi.Api.csproj --configuration Release
 # Publica a aplicação
 RUN dotnet publish src/Spezi.Api/Spezi.Api.csproj --configuration Release --no-build --output /app/publish
 
-# Verifica se o arquivo Spezi.Api.dll está presente após a publicação
-RUN ls -al /app/publish
 
-# Publica a aplicação
-# RUN dotnet publish src/Spezi.Api/Spezi.Api.csproj --configuration Release --no-build --output /app/publish
 
 # Usa a imagem .NET Runtime para rodar a API
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
