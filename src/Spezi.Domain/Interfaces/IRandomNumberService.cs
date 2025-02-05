@@ -4,4 +4,5 @@ namespace Spezi.Domain.Interfaces
     {
         int GenerateRandomNumber();
     }
+
 }

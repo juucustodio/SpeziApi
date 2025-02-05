@@ -1,4 +1,3 @@
-using Spezi.Domain.Entities;
 using Spezi.Domain.Interfaces;
 
 namespace Spezi.Application.Services
